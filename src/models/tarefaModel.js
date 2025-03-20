@@ -12,21 +12,31 @@ class TarefaModel {
       },
     });
   };
-  update = (id, concluida) => {
-    const tarefa = this.tarefas.find((t) => t.id === Number(id));
-    if (tarefa) {
-      tarefa.concluida = concluida !== undefined ? concluida : tarefa.concluida;
-      return tarefa;
+  
+  update = async (id, concluida) => {
+    try {
+      const tarefa = await prisma.task.update({
+        where: { id },
+        data: { concluida: concluida !== undefined ? concluida : true },
+      })
+      return tarefa
+    } catch (error) {
+      console.log("Error", error)
+      throw error
     }
-    return null;
   };
-  delete = (id) => {
-    const index = this.tarefas.findIndex((t) => t.id === Number(id));
-    if (index !== -1) {
-      this.tarefas.splice(index, 1);
-      return true;
+
+  delete = async (id) => {
+    try {
+        const tarefa = await prisma.task.delete({
+        where: { id }
+      })
+      return tarefa
+    } catch (error) {
+      console.log("Error", error)
+      throw error
     }
-    return false;
-  };
+  }
 }
+
 export default new TarefaModel();
