@@ -12,7 +12,7 @@ class TarefaModel {
       },
     });
   };
-  
+
   update = async (id, concluida) => {
     try {
       const tarefa = await prisma.task.update({
@@ -28,15 +28,15 @@ class TarefaModel {
 
   delete = async (id) => {
     try {
-        const tarefa = await prisma.task.delete({
-        where: { id }
-      })
-      return tarefa
+      const tarefaDeletada = await prisma.task.delete({
+        where: { id },
+      });
+      return tarefaDeletada;
     } catch (error) {
-      console.log("Error", error)
-      throw error
+      console.log("Erro ao deletar a tarefa!", error);
+      throw error;
     }
-  }
+  };
 }
 
 export default new TarefaModel();

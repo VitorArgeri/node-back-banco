@@ -45,13 +45,14 @@ class TarefaController {
     }
   };
 
-  delete = async ({ params: { id } }, res) => {
+  delete = async (req, res) => {
+    const { id } = req.params;
     try {
-      const tarefaDeletada = await tarefaModel.delete(Number(id));
-      if (!tarefaDeletada) {
+      const sucesso = await tarefaModel.delete(Number(id));
+      if (!sucesso) {
         return res.status(404).json({ erro: "Tarefa não encontrada" });
       }
-      res.json("Tarefa Deletada");
+      res.status(200).json({ message: "Tarefa deletada com sucesso" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ erro: "Erro ao deletar tarefa" });
